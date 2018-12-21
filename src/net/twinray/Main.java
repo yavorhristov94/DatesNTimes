@@ -2,6 +2,7 @@ package net.twinray;
 
 import java.time.*;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -11,7 +12,7 @@ public class Main {
 	// create a calendar
         Clock testClock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
         LocalDate testDate = LocalDate.now(testClock);
-        Calendar calendar = new Calendar();
+        net.twinray.Calendar calendar = new net.twinray.Calendar();
 
     // add some tasks to the calendar
         calendar.addTask(1, 0, "Answer urgent e-mail");
@@ -54,5 +55,32 @@ public class Main {
 
         System.out.println(wp2.toString());
         System.out.println(wp1.toString());
+    }
+
+    public static void TimeZoneFlying(){
+        //No idea where this method goes, it's just demo'd out of nowhere
+        net.twinray.Calendar calendar = new net.twinray.Calendar();
+        //also it's moronic to name your Classes like ones that exist
+        List<WorkPeriod> wps = calendar.generateWorkPeriods(LocalDate.now(), 1);
+        //We set up the list of work periods, as normal
+
+        ZoneOffset origZone = ZoneOffset.of("+0");
+        ZoneOffset destZone = ZoneOffset.of("-5");
+        //hardcoding he zones in this demo
+        LocalDateTime destLocalLandingTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11,0));
+        //Hardcoding the destination time
+
+
+        //The end goal is to see what activities will be available in time when we reach the dest
+        OffsetDateTime destOffsetLandingTIme = OffsetDateTime.of(destLocalLandingTime, destZone);
+        //We then use that to create an OffsetDateTime, which we can use for translating the local time to ours ATM
+        OffsetDateTime origOffsetLandingTime = destOffsetLandingTIme.withOffsetSameInstant(origZone);
+        //We tell the system to translate that destination's time to our time by putting in our time zone
+        LocalDateTime orgLocalLandingTime = origOffsetLandingTime.toLocalDateTime();
+        //Finally, we can convert it to our local time, finding when we will have landed.
+
+        //BTW this is all unnecessary bullshit, since you can just put in your flight time and then
+        //manually adjust the time zone change, but fuck me, why should things make sense
+
     }
 }

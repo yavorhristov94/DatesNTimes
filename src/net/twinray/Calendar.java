@@ -42,8 +42,7 @@ public class Calendar {
          LocalDateTime thisAmStart = LocalDateTime.of(d, amStart); //starts a work period
          periods.add(new WorkPeriod(thisAmStart, thisAmStart.plus(amDuration)));
          //finishes the work period and adds it in
-
      }
-
+        return periods;
     }
 }
