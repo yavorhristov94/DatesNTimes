@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -76,11 +78,17 @@ public class Main {
         //We then use that to create an OffsetDateTime, which we can use for translating the local time to ours ATM
         OffsetDateTime origOffsetLandingTime = destOffsetLandingTIme.withOffsetSameInstant(origZone);
         //We tell the system to translate that destination's time to our time by putting in our time zone
-        LocalDateTime orgLocalLandingTime = origOffsetLandingTime.toLocalDateTime();
+        LocalDateTime origLocalLandingTime = origOffsetLandingTime.toLocalDateTime();
         //Finally, we can convert it to our local time, finding when we will have landed.
 
         //BTW this is all unnecessary bullshit, since you can just put in your flight time and then
         //manually adjust the time zone change, but fuck me, why should things make sense
 
+        //We remove the ones that have ended already, are during landing (must be before and after landing)
+        List<WorkPeriod> usableWorkPeriods = wps.stream()
+                .filter(wp -> wp.getEndTime().isAfter(LocalDateTime.now()))
+                .filter(wp -? wp.getEndTime().isAfter(origLocalLandingTime)) ||
+                 wp.getStartTime().isAfter(origLocalLandingTime)
+                .collect(toList());
     }
 }
