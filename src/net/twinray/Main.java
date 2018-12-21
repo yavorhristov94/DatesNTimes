@@ -90,5 +90,5 @@ public class Main {
                 .filter(wp -? wp.getEndTime().isAfter(origLocalLandingTime)) ||
                  wp.getStartTime().isAfter(origLocalLandingTime)
                 .collect(toList());
-    }
+     }
 }
